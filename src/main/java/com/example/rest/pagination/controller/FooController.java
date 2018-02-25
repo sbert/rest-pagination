@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.stream.IntStream;
+import java.util.List;
 
 @RestController
-@RequestMapping("page/foos")
-public class PageFooController {
+@RequestMapping("foos")
+public class FooController {
 
     @Value("${foo.page.size}")
     private int size;
@@ -27,20 +28,30 @@ public class PageFooController {
     private FooRepository fooRepository;
 
     @GetMapping
-    public ResponseEntity<Page<Foo>> findAll() {
+    public ResponseEntity<List<Foo>> findAll() {
         return findPaginated(0);
     }
 
 
     @GetMapping(value = "", params = "page")
-    public ResponseEntity<Page<Foo>> findPaginated(@RequestParam int page) {
+    public ResponseEntity<List<Foo>> findPaginated(@RequestParam int page) {
         Page<Foo> fooPage = fooRepository.findAll(new PageRequest(page, size));
 
         if (page > fooPage.getTotalPages() || page < 0) {
             throw new InvalidRangeException("Requested page not satisfiable");
         } else {
-            return new ResponseEntity<>(fooPage, HttpStatus.PARTIAL_CONTENT);
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("number", String.valueOf(fooPage.getNumber()));
+            headers.add("numberOfElements", String.valueOf(fooPage.getNumberOfElements()));
+            headers.add("size", String.valueOf(fooPage.getSize()));
+            headers.add("totalElements", String.valueOf(fooPage.getTotalElements()));
+            headers.add("totalPages", String.valueOf(fooPage.getTotalPages()));
+            headers.add("first", String.valueOf(fooPage.isFirst()));
+            headers.add("last", String.valueOf(fooPage.isLast()));
+
+            return new ResponseEntity<>(fooPage.getContent(), headers, HttpStatus.PARTIAL_CONTENT);
         }
+
     }
 
 }
