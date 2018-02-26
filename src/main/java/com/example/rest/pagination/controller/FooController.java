@@ -41,13 +41,13 @@ public class FooController {
             throw new InvalidRangeException("Requested page not satisfiable");
         } else {
             HttpHeaders headers = new HttpHeaders();
-            headers.add("number", String.valueOf(fooPage.getNumber()));
-            headers.add("numberOfElements", String.valueOf(fooPage.getNumberOfElements()));
-            headers.add("size", String.valueOf(fooPage.getSize()));
-            headers.add("totalElements", String.valueOf(fooPage.getTotalElements()));
-            headers.add("totalPages", String.valueOf(fooPage.getTotalPages()));
-            headers.add("first", String.valueOf(fooPage.isFirst()));
-            headers.add("last", String.valueOf(fooPage.isLast()));
+            headers.add("page-number", String.valueOf(fooPage.getNumber()));
+            headers.add("page-numberOfElements", String.valueOf(fooPage.getNumberOfElements()));
+            headers.add("page-size", String.valueOf(fooPage.getSize()));
+            headers.add("page-totalElements", String.valueOf(fooPage.getTotalElements()));
+            headers.add("page-totalPages", String.valueOf(fooPage.getTotalPages()));
+            headers.add("page-first", String.valueOf(fooPage.isFirst()));
+            headers.add("page-last", String.valueOf(fooPage.isLast()));
 
             return new ResponseEntity<>(fooPage.getContent(), headers, HttpStatus.PARTIAL_CONTENT);
         }
