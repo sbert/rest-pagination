@@ -42,10 +42,10 @@ public class FooController {
         } else {
             HttpHeaders headers = new HttpHeaders();
             headers.add("page-number", String.valueOf(fooPage.getNumber()));
-            headers.add("page-numberOfElements", String.valueOf(fooPage.getNumberOfElements()));
+            headers.add("page-number-of-elements", String.valueOf(fooPage.getNumberOfElements()));
             headers.add("page-size", String.valueOf(fooPage.getSize()));
-            headers.add("page-totalElements", String.valueOf(fooPage.getTotalElements()));
-            headers.add("page-totalPages", String.valueOf(fooPage.getTotalPages()));
+            headers.add("page-total-elements", String.valueOf(fooPage.getTotalElements()));
+            headers.add("page-total-pages", String.valueOf(fooPage.getTotalPages()));
             headers.add("page-first", String.valueOf(fooPage.isFirst()));
             headers.add("page-last", String.valueOf(fooPage.isLast()));
 
