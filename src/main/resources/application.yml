@@ -11,5 +11,5 @@ spring:
 
 foo:
   page:
-    size: 10
+    size: 20
 

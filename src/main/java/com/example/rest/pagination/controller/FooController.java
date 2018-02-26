@@ -37,7 +37,7 @@ public class FooController {
     public ResponseEntity<List<Foo>> findPaginated(@RequestParam int page) {
         Page<Foo> fooPage = fooRepository.findAll(new PageRequest(page, size));
 
-        if (page > fooPage.getTotalPages() || page < 0) {
+        if (page > fooPage.getTotalPages()) {
             throw new InvalidRangeException("Requested page not satisfiable");
         } else {
             HttpHeaders headers = new HttpHeaders();
